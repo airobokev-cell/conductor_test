@@ -53,19 +53,19 @@ export default function PayPage() {
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="max-w-sm w-full text-center">
           <h1 className="text-2xl font-bold mb-2">ParkInBoulder</h1>
-          <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-            <p className="text-green-800 text-lg font-semibold">
-              Free Parking Right Now
+          <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+            <p className="text-red-800 text-lg font-semibold">
+              Lot Closed
             </p>
-            <p className="text-green-600 mt-2 text-sm">
-              Paid parking is enforced{" "}
+            <p className="text-red-600 mt-2 text-sm">
+              Parking is only available{" "}
               {pricing.dayType === "weekday"
                 ? "Mon–Fri 8am–8pm"
                 : "Sat–Sun 8am–10pm"}
               .
             </p>
-            <p className="text-green-600 text-sm">
-              Enjoy your free parking!
+            <p className="text-red-600 text-sm">
+              No overnight parking. Vehicles left after hours may be towed.
             </p>
           </div>
         </div>

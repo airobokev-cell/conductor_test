@@ -33,7 +33,7 @@ export default function Home() {
           </div>
 
           <p className="text-xs text-gray-400">
-            Free parking outside enforced hours.
+            No overnight parking. Lot closed outside posted hours.
             <br />
             Scan the QR code on the lot sign or tap above.
           </p>

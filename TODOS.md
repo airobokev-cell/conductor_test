@@ -1,5 +1,12 @@
 # TODOS — ParkInBoulder
 
+## Before Full Launch
+
+### Set up Twilio for SMS
+Sign up at twilio.com with admin@parkinboulder.com, buy a US phone number, add Account SID, Auth Token, and phone number to Vercel env vars. Enables: violation SMS alerts to owner + payment receipt texts to parkers.
+- **Effort:** S
+- **Blocked by:** Nothing — can do anytime
+
 ## V2 Enhancements
 
 ### Live lot availability on landing page

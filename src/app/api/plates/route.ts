@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
   // Authenticate bridge script
   const authHeader = req.headers.get("authorization");
   const expectedKey = process.env.BRIDGE_API_KEY;
+  const cronSecret = process.env.CRON_SECRET;
 
   if (!expectedKey || authHeader !== `Bearer ${expectedKey}`) {
     return NextResponse.json(
@@ -95,6 +96,13 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Trigger async violation check for all overdue sessions
+    // (replaces frequent cron — runs on each plate detection instead)
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    fetch(`${appUrl}/api/alerts`, {
+      headers: cronSecret ? { authorization: `Bearer ${cronSecret}` } : {},
+    }).catch(() => {});
 
     return NextResponse.json({ created: true, sessionId: session.id });
   } catch (err) {

@@ -79,8 +79,7 @@ export default function PayPage() {
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold">ParkInBoulder</h1>
           <p className="text-gray-500 mt-1">
-            {pricing.dayType === "weekday" ? "Weekday" : "Weekend"} parking
-            &middot; {pricing.rateDisplay}/day
+            {pricing.dayType === "weekday" ? "Weekday" : "Weekend"} parking &middot; {pricing.rateDisplay}/day
           </p>
         </div>
 

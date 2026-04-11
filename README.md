@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ParkInBoulder
 
-## Getting Started
+Parking management platform for a 12-space lot in Boulder, CO.
 
-First, run the development server:
+**Stack:** Next.js + Supabase + Stripe + Twilio + Vercel
+
+## Quick Start (Local Dev)
 
 ```bash
+npm install
+cp .env.local.example .env.local
+# Fill in .env.local with your keys
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Go-Live Checklist
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Supabase
+- Create project at [supabase.com](https://supabase.com)
+- Go to SQL Editor, paste contents of `supabase/migrations/001_initial_schema.sql`, Run
+- Copy project URL, anon key, and service role key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Stripe
+- Create account at [stripe.com](https://stripe.com)
+- Get publishable + secret keys from Dashboard > Developers > API Keys
+- Set up webhook:
+  - Endpoint URL: `https://parkinboulder.com/api/webhooks/stripe`
+  - Events: `checkout.session.completed`
+  - Copy the webhook signing secret
 
-## Learn More
+### 3. Twilio
+- Create account at [twilio.com](https://www.twilio.com)
+- Get a phone number
+- Copy Account SID, Auth Token, and phone number
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Vercel
+- Push this repo to GitHub
+- Import in [vercel.com](https://vercel.com)
+- Add environment variables (see `.env.local.example` for the full list)
+- Set custom domain: `parkinboulder.com`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 5. Bridge Script (on your local network)
+```bash
+cd bridge
+cp .env.bridge.example .env.bridge
+# Edit .env.bridge with Ubiquiti Protect credentials + API key
+npx tsx index.ts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run this on any machine on the same network as your Ubiquiti camera.
 
-## Deploy on Vercel
+## Pricing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Day | Rate | Enforced |
+|-----|------|----------|
+| Mon-Fri | $15/day | 8am-8pm |
+| Sat-Sun | $25/day | 8am-10pm |
+| Outside hours | Free | n/a |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Architecture
+
+```
+Parker scans QR > parkinboulder.com/pay > Stripe Checkout > webhook confirms payment
+Camera reads plate > Protect LPR > bridge script > /api/plates > session created
+Cron (every 5 min) > find unpaid sessions past grace period > SMS alert to owner
+Owner > parkinboulder.com/dashboard > real-time lot view + violations + revenue
+```

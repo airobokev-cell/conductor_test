@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         .eq("id", parseInt(spaceId));
     }
 
-    // Send SMS receipt if phone provided
+    // Send SMS receipt + review request if phone provided
     if (phone) {
       try {
         const amount = (checkoutSession.amount_total || 0) / 100;
@@ -89,8 +89,22 @@ export async function POST(req: NextRequest) {
           phone,
           `ParkInBoulder receipt: $${amount.toFixed(2)} paid for Space ${spaceId}, plate ${plate}. Valid all day. Thank you!`
         );
+        // Send a rotating cheeky review request as a follow-up message
+        const reviewUrl = process.env.GOOGLE_REVIEW_URL;
+        if (reviewUrl) {
+          const reviewMessages = [
+            `You just paid $5 to park. Your Uber to Pearl Street costs more. Tell Google how absurdly cheap we are and your next day's free: ${reviewUrl}`,
+            `Fun fact: you're now parked in Boulder's best-kept secret. Spill the beans on Google and we'll comp your next visit: ${reviewUrl}`,
+            `Your car is safe, your wallet barely noticed, and you didn't download an app. We're basically perfect. Confirm it on Google? Free day next time: ${reviewUrl}`,
+            `Parking lot asks for Google review — shocking, we know. But we're $5/day with cameras and QR codes. We earned it. Free day if you agree: ${reviewUrl}`,
+            `Plot twist: a parking lot just gave you the best customer experience in Boulder today. Leave a Google review, get a free day: ${reviewUrl}`,
+          ];
+          const message =
+            reviewMessages[Math.floor(Math.random() * reviewMessages.length)];
+          await sendSMS(phone, message);
+        }
       } catch (smsErr) {
-        console.error("Failed to send SMS receipt:", smsErr);
+        console.error("Failed to send SMS:", smsErr);
         // Don't fail the webhook for SMS errors
       }
     }

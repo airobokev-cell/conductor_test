@@ -1,6 +1,6 @@
 // Pricing for ParkInBoulder
-// Mon-Fri: $15/day, enforced 8am-8pm
-// Sat-Sun: $25/day, enforced 8am-10pm
+// Mon-Fri: $5/day, enforced 8am-8pm
+// Sat-Sun: $15/day, enforced 8am-10pm
 // All times in America/Denver
 
 const TIMEZONE = "America/Denver";
@@ -27,8 +27,8 @@ export function getPricingForDate(date: Date): PricingInfo {
 
   if (isWeekend) {
     return {
-      rateCents: 2500,
-      rateDisplay: "$25.00",
+      rateCents: 1500,
+      rateDisplay: "$15.00",
       isEnforced: currentTime >= 8 && currentTime < 22,
       dayType: "weekend",
       enforceStart: 8,
@@ -37,8 +37,8 @@ export function getPricingForDate(date: Date): PricingInfo {
   }
 
   return {
-    rateCents: 1500,
-    rateDisplay: "$15.00",
+    rateCents: 500,
+    rateDisplay: "$5.00",
     isEnforced: currentTime >= 8 && currentTime < 20,
     dayType: "weekday",
     enforceStart: 8,

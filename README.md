@@ -53,15 +53,19 @@ Run this on any machine on the same network as your Ubiquiti camera.
 
 | Day | Rate | Enforced |
 |-----|------|----------|
-| Mon-Fri | $15/day | 8am-8pm |
-| Sat-Sun | $25/day | 8am-10pm |
+| Mon-Fri | $5/day | 8am-8pm |
+| Sat-Sun | $15/day | 8am-10pm |
 | Outside hours | Free | n/a |
+
+Source of truth is `src/lib/pricing.ts` (hardcoded; the `pricing_rules` DB table is unused).
+Verified live on parkinboulder.com 2026-07-04. Ops procedures + punch list: [OPERATIONS.md](OPERATIONS.md).
 
 ## Architecture
 
 ```
 Parker scans QR > parkinboulder.com/pay > Stripe Checkout > webhook confirms payment
 Camera reads plate > Protect LPR > bridge script > /api/plates > session created
-Cron (every 5 min) > find unpaid sessions past grace period > SMS alert to owner
+Cron (daily 12:00 UTC per vercel.json, + ad-hoc after each plate detection)
+  > find unpaid sessions past grace period > SMS alert to owner (once Twilio configured)
 Owner > parkinboulder.com/dashboard > real-time lot view + violations + revenue
 ```

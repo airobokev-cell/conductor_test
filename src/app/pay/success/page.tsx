@@ -8,22 +8,26 @@ function SuccessContent() {
   const sessionId = searchParams.get("session_id");
 
   return (
-    <div className="flex-1 flex items-center justify-center p-6">
+    <div className="flex-1 flex items-center justify-center p-6 bg-navy">
       <div className="max-w-sm w-full text-center">
-        <div className="text-5xl mb-4">&#x2705;</div>
-        <h1 className="text-2xl font-bold mb-2">Payment Confirmed</h1>
-        <p className="text-gray-600 mb-6">
+        <div className="inline-flex items-center justify-center w-16 h-16 border-2 border-gold rounded-full mb-4">
+          <svg className="w-8 h-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h1 className="font-serif text-2xl font-medium text-white mb-2">Payment Confirmed</h1>
+        <p className="text-white/60 mb-6">
           Your parking is paid for the day. Enjoy Boulder!
         </p>
-        <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-800">
-          <p>Your vehicle is registered and you&apos;re all set.</p>
-          <p className="mt-1 text-green-600">
+        <div className="bg-navy-light border border-gold/20 rounded-lg p-4 text-sm">
+          <p className="text-white/70">Your vehicle is registered and you&apos;re all set.</p>
+          <p className="mt-1 text-white/40">
             A receipt has been sent if you provided a phone number.
           </p>
         </div>
         {sessionId && (
-          <p className="text-xs text-gray-400 mt-4">
-            Reference: {sessionId.slice(0, 8)}...
+          <p className="text-xs text-white/20 mt-4 font-mono">
+            Ref: {sessionId.slice(0, 8)}
           </p>
         )}
       </div>
@@ -35,8 +39,8 @@ export default function SuccessPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex-1 flex items-center justify-center p-6">
-          Loading...
+        <div className="flex-1 flex items-center justify-center p-6 bg-navy">
+          <p className="text-white/40">Loading...</p>
         </div>
       }
     >

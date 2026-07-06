@@ -111,9 +111,16 @@ Skipped intentionally: SpotHero/ParkWhiz (commission apps — Kevin's call).
 - **60/90-day targets**: top-3 organic for "downtown boulder parking"; map-pack presence for "parking near pearl street"; ads ≥10% impression share on exact-match core terms
 
 ## Verification status (2026-07-06)
-- [x] Working tree committed; prod verified $5/$15 post-deploy (Gate A closed)
-- [x] 5-URL sitemap, /location /rates /events live, LocalBusiness schema with full address
+- [x] Working tree committed & pushed; prod still serves $5/$15 (Gate A closed)
+- [x] 5-URL sitemap, /location /rates /events, LocalBusiness schema with full address —
+      **committed + verified locally, NOT yet deployed**
 - [x] GA4/Vercel Analytics/GSC verification/review link code shipped (env-gated, dark)
 - [x] gads MCP access verified (read-only)
+- [ ] **DEPLOY BLOCKER (Kevin): Vercel CLI token expired and the project has no git
+      integration (past deploys were CLI-from-working-tree — the root cause of punch #1).
+      Either run `vercel login` + `vercel --prod` in the repo, or better: in the Vercel
+      dashboard connect project "chennai" to github.com/airobokev-cell/conductor_test with
+      production branch `airobokev-cell/gstack-quickstart` so every push deploys. Git now
+      matches intended prod, so this is safe.**
 - [ ] Kevin activation checklist §1
 - [ ] GBP §2 · Ads build §3 · Citations §4

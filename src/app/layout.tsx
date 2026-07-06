@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import Link from "next/link";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
+import { ADDRESS_DISPLAY, BUSINESS } from "@/lib/business";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -60,6 +64,13 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({
@@ -72,7 +83,24 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <footer className="bg-navy border-t border-white/10 py-6 px-6 text-center">
+          <p className="text-white/30 text-xs tracking-wide">
+            {BUSINESS.name} &middot; {ADDRESS_DISPLAY}
+          </p>
+          <p className="mt-2 text-xs space-x-3">
+            <Link href="/location" className="text-white/30 hover:text-gold">Location</Link>
+            <Link href="/rates" className="text-white/30 hover:text-gold">Rates</Link>
+            <Link href="/events" className="text-white/30 hover:text-gold">Events</Link>
+            <Link href="/pay" className="text-white/30 hover:text-gold">Pay</Link>
+          </p>
+        </footer>
+        <Analytics />
+      </body>
+      {process.env.NEXT_PUBLIC_GA_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      )}
     </html>
   );
 }

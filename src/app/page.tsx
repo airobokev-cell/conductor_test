@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import LotStatus from "./components/lot-status";
+import { localBusinessJsonLd } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "Downtown Boulder Parking | Just $5/day Weekdays | ParkInBoulder",
@@ -11,48 +12,7 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ParkingFacility",
-  name: "ParkInBoulder",
-  description:
-    "The cheapest parking in downtown Boulder, Colorado. 12 spaces near Pearl Street. $5/day weekdays, $15/day weekends. QR code payment.",
-  url: "https://parkinboulder.com",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Boulder",
-    addressRegion: "CO",
-    addressCountry: "US",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 40.015,
-    longitude: -105.2705,
-  },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:00",
-      closes: "20:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Saturday", "Sunday"],
-      opens: "08:00",
-      closes: "22:00",
-    },
-  ],
-  currenciesAccepted: "USD",
-  paymentAccepted: "Credit Card",
-  priceRange: "$5-$15",
-  numberOfParkingSpaces: 12,
-  amenityFeature: [
-    { "@type": "LocationFeatureSpecification", name: "QR Code Payment", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Security Cameras", value: true },
-    { "@type": "LocationFeatureSpecification", name: "License Plate Recognition", value: true },
-  ],
-};
+const jsonLd = localBusinessJsonLd();
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -178,8 +138,11 @@ export default function Home() {
           </p>
 
           <p>
-            We&apos;re <span className="text-white/80">near Pearl Street</span> in the heart of
-            downtown Boulder &mdash; walking distance to everything worth doing.
+            We&apos;re at <span className="text-white/80">1144 Mapleton Ave</span>, a{" "}
+            <Link href="/location" className="text-gold hover:text-gold-light underline underline-offset-2">
+              five-minute walk from Pearl Street
+            </Link>{" "}
+            &mdash; walking distance to everything worth doing.
             Your car gets <span className="text-white/80">24/7 camera surveillance</span> and{" "}
             <span className="text-white/80">license plate recognition</span>, so
             you can go enjoy your overpriced açaí bowl in peace.
@@ -266,9 +229,25 @@ export default function Home() {
           </Link>
         </div>
 
+        {/* Plan your visit — internal links for crawl + users */}
+        <div className="grid grid-cols-3 gap-3 text-center text-xs">
+          <Link href="/location" className="bg-navy-light rounded-lg p-3 text-white/60 hover:text-gold transition-colors">
+            Location &amp; Directions
+          </Link>
+          <Link href="/rates" className="bg-navy-light rounded-lg p-3 text-white/60 hover:text-gold transition-colors">
+            Compare Rates
+          </Link>
+          <Link href="/events" className="bg-navy-light rounded-lg p-3 text-white/60 hover:text-gold transition-colors">
+            Event Parking
+          </Link>
+        </div>
+
         <div className="border-t border-white/10 pt-4 text-center">
           <p className="text-white/30 text-xs tracking-wide uppercase">
-            No overnight parking &middot; Cameras in use &middot; Boulder, Colorado
+            No overnight parking &middot; Cameras in use
+          </p>
+          <p className="text-white/30 text-xs tracking-wide mt-1">
+            1144 Mapleton Ave, Boulder, CO 80304
           </p>
         </div>
 

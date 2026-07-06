@@ -1,11 +1,23 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const amountCents = parseInt(searchParams.get("amount") || "0", 10);
+
+  useEffect(() => {
+    if (!sessionId || !process.env.NEXT_PUBLIC_GA_ID) return;
+    // transaction_id dedupes the event across refreshes of this page
+    sendGAEvent("event", "purchase", {
+      transaction_id: sessionId,
+      value: amountCents / 100,
+      currency: "USD",
+    });
+  }, [sessionId, amountCents]);
 
   return (
     <div className="flex-1 flex items-center justify-center p-6 bg-navy">
@@ -25,6 +37,16 @@ function SuccessContent() {
             A receipt has been sent if you provided a phone number.
           </p>
         </div>
+        {process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL && (
+          <a
+            href={process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-6 text-sm text-gold underline underline-offset-4 hover:text-gold/80"
+          >
+            Enjoying the easiest parking in Boulder? Rate us on Google
+          </a>
+        )}
         {sessionId && (
           <p className="text-xs text-white/20 mt-4 font-mono">
             Ref: {sessionId.slice(0, 8)}

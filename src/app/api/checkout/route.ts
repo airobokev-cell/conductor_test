@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         plate,
         phone: phone || "",
       },
-      success_url: `${appUrl}/pay/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${appUrl}/pay/success?session_id={CHECKOUT_SESSION_ID}&amount=${pricing.rateCents}`,
       cancel_url: `${appUrl}/pay`,
     });
 

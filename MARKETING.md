@@ -111,16 +111,14 @@ Skipped intentionally: SpotHero/ParkWhiz (commission apps — Kevin's call).
 - **60/90-day targets**: top-3 organic for "downtown boulder parking"; map-pack presence for "parking near pearl street"; ads ≥10% impression share on exact-match core terms
 
 ## Verification status (2026-07-06)
-- [x] Working tree committed & pushed; prod still serves $5/$15 (Gate A closed)
-- [x] 5-URL sitemap, /location /rates /events, LocalBusiness schema with full address —
-      **committed + verified locally, NOT yet deployed**
-- [x] GA4/Vercel Analytics/GSC verification/review link code shipped (env-gated, dark)
+- [x] Working tree committed & pushed; prod verified $5/$15 (Gate A closed)
+- [x] **Git→Vercel integration LIVE**: project "chennai" connected to
+      github.com/airobokev-cell/conductor_test, production branch
+      `airobokev-cell/gstack-quickstart` — every push now deploys. (Old failure mode —
+      CLI deploys from an uncommitted working tree — is gone; never deploy via CLI again.)
+- [x] **Deployed & verified on parkinboulder.com**: 5-URL sitemap, /location /rates
+      /events all 200, LocalBusiness schema w/ full address + corrected geo, $5/$15 intact
+- [x] GA4/Vercel Analytics/GSC verification/review link code live but dark (env-gated)
 - [x] gads MCP access verified (read-only)
-- [ ] **DEPLOY BLOCKER (Kevin): Vercel CLI token expired and the project has no git
-      integration (past deploys were CLI-from-working-tree — the root cause of punch #1).
-      Either run `vercel login` + `vercel --prod` in the repo, or better: in the Vercel
-      dashboard connect project "chennai" to github.com/airobokev-cell/conductor_test with
-      production branch `airobokev-cell/gstack-quickstart` so every push deploys. Git now
-      matches intended prod, so this is safe.**
-- [ ] Kevin activation checklist §1
+- [ ] Kevin activation checklist §1 (GA4 property, GSC, Bing, GA4↔Ads link, review URL, Twilio)
 - [ ] GBP §2 · Ads build §3 · Citations §4
